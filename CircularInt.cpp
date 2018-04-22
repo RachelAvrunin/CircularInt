@@ -185,6 +185,7 @@ CircularInt operator * (CircularInt const & x, int num){
 CircularInt operator * (CircularInt const & x, CircularInt const & y){
 	CircularInt res {x.start, x.end};
 	res.current = norm(x.current*y.current, x.start, x.end);
+	return res;
 }
 
 //Division
@@ -246,4 +247,5 @@ ostream& operator << (ostream& os, CircularInt const & c){
 istream& operator >> (istream & is, CircularInt& x){
 		cin >> x.start >> x.end;
 		x.current = x.start;
+		return is;
 }
