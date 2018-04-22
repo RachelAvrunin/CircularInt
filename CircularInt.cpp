@@ -28,7 +28,7 @@ CircularInt::CircularInt(int start, int end){
 CircularInt::~CircularInt(){
 }
 
-int normalization(int num, int start, int end){
+int norm(int num, int start, int end){
 	num = num % (end-start+1);
 	if(num>end)
 		num -= (end-start+1);
@@ -38,15 +38,15 @@ int normalization(int num, int start, int end){
 }
 
 //Assignment
-CircularInt& CircularInt::operator= (const CircularInt& c){
+CircularInt& CircularInt::operator = (const CircularInt& c){
 	this->start = c.start;
 	this->end = c.start;
 	this->current = c.current;
 	return *this;
 }  
 
-CircularInt& CircularInt::operator= (int num){
-	this->current = normalization(num,this->start,this->end);
+CircularInt& CircularInt::operator = (int num){
+	this->current = norm(num,this->start,this->end);
 	return *this;
 }
 
@@ -76,45 +76,174 @@ bool operator != (CircularInt const & a, CircularInt const & b){
 }
 
 //Addition
+CircularInt& CircularInt::operator += (CircularInt const & x){
+	current = norm(current+x.current, start, end);
+	return *this;
+}
 
-// CircularInt& operator += (int);
-// CircularInt& operator += (CircularInt const &);
-// friend CircularInt operator + (int, CircularInt const &);
-// friend CircularInt operator + (CircularInt const &, int);
-// friend CircularInt operator + (CircularInt const &, CircularInt const &);
-// CircularInt& operator ++ ();
-// const CircularInt operator ++ (int);
+CircularInt& CircularInt::operator += (int const x){
+	current = norm(current+x, start, end);
+	return *this;
+}
+
+CircularInt operator + (int add, CircularInt const & x){
+	CircularInt res {x.start, x.end};
+    res.current= norm(add+x.current, x.start, x.end);
+	return res;
+}
+
+CircularInt operator + (CircularInt const & x, int add){
+	return add + x;
+}
+
+CircularInt operator + (CircularInt const & x, CircularInt const & y){
+	CircularInt res {x.start, x.end};
+	res.current = norm(x.current+y.current, x.start, x.end);
+	return res;
+}
+
+CircularInt& CircularInt::operator ++ (){
+	*this += 1;
+	return *this;
+}
+
+const CircularInt CircularInt::operator ++ (int	){
+	CircularInt res {start, end};
+	res.current = current;
+	current = norm(current + 1, start, end);
+	return res;
+}
 
 //Subtraction
+CircularInt& CircularInt::operator -= (CircularInt const & x){
+	current = norm(current-x.current, start, end);
+	return *this;
+}
 
-// CircularInt operator - ();
-// CircularInt& operator -= (CircularInt const &);
-// CircularInt& operator -= (int);
-// friend CircularInt operator - (int, CircularInt const &);
-// friend CircularInt operator - (CircularInt const &,int);
-// friend CircularInt operator - (CircularInt const &,CircularInt const &);
-// CircularInt& operator -- ();
-// const CircularInt operator -- (int);
+CircularInt& CircularInt::operator -= (int const x){
+	current = norm(current-x, start, end);
+	return *this;
+}
+
+CircularInt operator - (int num, CircularInt const & x){
+	CircularInt res {x.start, x.end};
+	res.current = norm(res.current-num, res.start, res.end);
+	return res;
+}
+
+CircularInt operator - (CircularInt const & x, int sub){
+	return (sub - x);
+}
+
+CircularInt operator - (CircularInt const & x, CircularInt const & y){
+	CircularInt res {x.start, x.end};
+	res.current = norm(x.current-y.current, x.start, x.end);
+	return res;
+}
+
+CircularInt CircularInt::operator - (){
+	CircularInt res {start, end};
+	res.current = current;
+	res.current -= end;
+	res.current *= -1;
+	return res;
+}
+
+CircularInt& CircularInt::operator -- (){
+	current -= 1;
+	return *this;
+}
+
+const CircularInt CircularInt::operator -- (int){
+	CircularInt res {start, end};
+	res.current = current;
+	current = norm(current - 1, start, end);
+	return res;
+}
 
 //Multiplication
+CircularInt& CircularInt::operator *= (CircularInt const & x){
+	current = norm(current*x.current, start, end);
+	return *this;
+}
 
-// CircularInt& operator *= (CircularInt const &);
-// CircularInt& operator *= (int);
-// friend CircularInt operator * (int, CircularInt const &);
-// friend CircularInt operator * (CircularInt const &,int);
-// friend CircularInt operator * (CircularInt const &, CircularInt const &);
+CircularInt& CircularInt::operator *= (int const num){
+	current = norm(current*num, start, end);
+	return *this;
+}
+
+CircularInt operator * (int num, CircularInt const & x){
+	CircularInt res {x.start, x.end};
+	res.current = norm(x.current*num, x.start, x.end);
+	return res;
+}
+
+CircularInt operator * (CircularInt const & x, int num){
+	return num * x ;
+}
+
+CircularInt operator * (CircularInt const & x, CircularInt const & y){
+	CircularInt res {x.start, x.end};
+	res.current = norm(x.current*y.current, x.start, x.end);
+}
 
 //Division
+CircularInt& CircularInt::operator /= (CircularInt const & x){
+	current /= x.current;
+	current = current % end;
+	if(current < start)
+		current += end;
+	return *this;
+}
 
-// CircularInt& operator /= (int);
-// CircularInt& operator /= (CircularInt const &);
-// friend CircularInt operator / (int, CircularInt const &);
-// friend CircularInt operator / (CircularInt const &, int);
-// friend CircularInt operator / (CircularInt const &, CircularInt const &);
+CircularInt& CircularInt::operator /= (int const num){
+	current /= num;
+	current = current % end;
+	if(current < start)
+		current += end;
+	return *this;
+}
+
+CircularInt operator / ( CircularInt const & x, int num){
+	CircularInt res {x.start, x.end};
+	res.current = x.current;
+	if(res.current % num == 0)
+		res /= num;
+	else
+		throw "\"There is no number x in {"+to_string(x.start)+","+to_string(x.end)+"} such that x*"+to_string(num)+"="+to_string(x.current)+"\" ";
+	return res;
+}
+
+CircularInt operator / (int x, CircularInt const & obj){
+	CircularInt res {obj.start, obj.end};
+	x = x % obj.end;
+	res.current = x;
+	if(res.current % obj.current == 0)
+		res /= obj;
+	else
+		throw "\"There is no number x in {"+to_string(obj.start)+","+to_string(obj.end)+"} such that x*"+to_string(x)+"="+to_string(obj.current)+"\" ";
+	return res;
+}
+
+CircularInt operator / (CircularInt const & x, CircularInt const & y){
+	if(x.end != y.end || x.start != y.start)
+		throw "The objects have different cycles";
+	else {
+		CircularInt res {x.start, x.end};
+        if(x.current % y.current == 0)
+            res.current = x.current / y.current;
+        else
+            throw "\"There is no number x in {"+to_string(x.start)+","+to_string(x.end)+"} such that x*"+to_string(x.current)+"="+to_string(y.current)+"\" ";
+		return res;
+	}
+}
 
 //Stream
 ostream& operator << (ostream& os, CircularInt const & c){
 	return os << c.current;
 }
 
-// friend istream& operator >> (istream & ,CircularInt &);
+istream& operator >> (istream & is, CircularInt& x){
+		cin >> x.start >> x.end;
+		x.current = x.start;
+}
