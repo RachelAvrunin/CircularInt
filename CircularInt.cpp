@@ -56,16 +56,16 @@ CircularInt& CircularInt::operator = (int num){
 }
 
 //Comparison
-bool operator == (CircularInt const & obj, int const num){
-	return obj.current == num;
+bool operator == (CircularInt const & x, int const num){
+	return x.current == num;
 }
 
 bool operator == (int const num, CircularInt const & obj){
 	return num == obj.current;
 }
 
-bool operator == (CircularInt const & a, CircularInt const & b){
-	return a.current == b.current;
+bool operator == (CircularInt const & x, CircularInt const & y){
+	return x.current == y.current;
 }
 
 bool operator != (CircularInt const & obj, int num){
@@ -241,53 +241,61 @@ CircularInt operator * (CircularInt const & x, CircularInt const & y){
 
 //Division
 CircularInt& CircularInt::operator /= (CircularInt const & x){
-	current /= x.current;
-	current = current % end;
-	if(current < start)
-		current += end;
-	return *this;
+	if(end > x.current && x.current < start){
+		for(int i = start; i <= end; i++)
+			if(current == x.current * i){
+				this->current = i;
+				return *this;
+		}
+	}
+	throw "\"There is no number x in {"+to_string(start)+","+to_string(end)+"} such that x*"+to_string(x.current)+"="+to_string(current)+"\" ";
 }
 
 CircularInt& CircularInt::operator /= (int const num){
-	current /= num;
-	current = current % end;
-	if(current < start)
-		current += end;
-	return *this;
+	if(end > num && num < start){
+		for(int i = start; i <= end; i++)
+			if(current == num * i){
+				this->current = i;
+				return *this;
+		}
+	}
+	throw "\"There is no number x in {"+to_string(start)+","+to_string(end)+"} such that x*"+to_string(num)+"="+to_string(current)+"\" ";
 }
 
 CircularInt operator / ( CircularInt const & x, int num){
 	CircularInt res {x.start, x.end};
-	res.current = x.current;
-	if(res.current % num == 0)
-		res /= num;
-	else
-		throw "\"There is no number x in {"+to_string(x.start)+","+to_string(x.end)+"} such that x*"+to_string(num)+"="+to_string(x.current)+"\" ";
-	return res;
+	if(x.start <= num && num <= x.current){
+		for(int i = x.start; i <= x.end; i++)
+			if(x.current == num * i){
+				res.current = i;
+				return res;
+		}
+	}
+	throw "\"There is no number x in {"+to_string(x.start)+","+to_string(x.end)+"} such that x*"+to_string(num)+"="+to_string(x.current)+"\" ";
 }
 
-CircularInt operator / (int x, CircularInt const & obj){
-	CircularInt res {obj.start, obj.end};
-	x = x % obj.end;
-	res.current = x;
-	if(res.current % obj.current == 0)
-		res /= obj;
-	else
-		throw "\"There is no number x in {"+to_string(obj.start)+","+to_string(obj.end)+"} such that x*"+to_string(x)+"="+to_string(obj.current)+"\" ";
-	return res;
+CircularInt operator / (int num, CircularInt const & x){
+	CircularInt res {x.start, x.end};
+	if(x.current <= num && num <= x.end){
+		for(int i = x.start; i <= x.end; i++)
+			if(num == x.current * i){
+				res.current = i;
+				return res;
+		}
+	}
+	throw "\"There is no number x in {"+to_string(x.start)+","+to_string(x.end)+"} such that x*"+to_string(num)+"="+to_string(x.current)+"\" ";
 }
 
 CircularInt operator / (CircularInt const & x, CircularInt const & y){
-	if(x.end != y.end || x.start != y.start)
-		throw "The objects have different cycles";
-	else {
-		CircularInt res {x.start, x.end};
-        if(x.current % y.current == 0)
-            res.current = x.current / y.current;
-        else
-            throw "\"There is no number x in {"+to_string(x.start)+","+to_string(x.end)+"} such that x*"+to_string(x.current)+"="+to_string(y.current)+"\" ";
-		return res;
-	}
+	CircularInt res {x.start, x.end};
+	if(x.start <= y.current && y.current <= x.current){
+		for(int i = x.start; i <= x.end; i++)
+			if(x.current == y.current * i){
+				res.current = i;
+				return res;
+			}
+		}
+    throw "\"There is no number x in {"+to_string(x.start)+","+to_string(x.end)+"} such that x*"+to_string(x.current)+"="+to_string(y.current)+"\" ";
 }
 
 CircularInt& CircularInt::operator %= (const int num){
