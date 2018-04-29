@@ -43,10 +43,10 @@ int norm(int num, int start, int end){
 }
 
 //Assignment
-CircularInt& CircularInt::operator = (const CircularInt& c){
-	this->start = c.start;
-	this->end = c.start;
-	this->current = c.current;
+CircularInt& CircularInt::operator = (const CircularInt& x){
+	this->start = x.start;
+	this->end = x.end;
+	this->current = x.current;
 	return *this;
 }  
 
@@ -132,7 +132,7 @@ CircularInt& CircularInt::operator -= (int const x){
 
 CircularInt operator - (int num, CircularInt const & x){
 	CircularInt res {x.start, x.end};
-	res.current = norm(num-x.current, res.start, res.end);
+	res.current = norm(num-x.current, res.start, res.end);	
 	return res;
 }
 

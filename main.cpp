@@ -16,12 +16,12 @@ int main() {
 	cout << hour+hour << endl;                // 10 (11 hours after 11)
 	hour *= 2;   cout << hour << endl;        // 10 (11*2 = 11+11)
 	cout << hour/2 << endl;                   // TWO OPTIONS: 11 (since 11*2=10) or 5 (since 5*2=10 too).
-/*
+	
 	try {
 		cout << hour/3;
 	} catch (const string& message) {
 		cout << message << endl;     // "There is no number x in {1,12} such that x*3=10"
-	}*/
+	}
 
 	// RIDDLES (not for submission): 
 	//  * when is there exactly one answer to a/b?
