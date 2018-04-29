@@ -1,3 +1,5 @@
+
+
 #include <iostream>
 using namespace std;
 
@@ -29,11 +31,14 @@ CircularInt::~CircularInt(){
 }
 
 int norm(int num, int start, int end){
-	num = num % (end-start+1);
-	if(num>end)
-		num -= (end-start+1);
-	if(num < start)
-		num += (end-start+1);
+   while (num < start || num > end){
+        if(num > end){
+            num -= (end-start+1);
+        }
+        else if(num < start){
+            num += (end-start+1);
+        }
+    }
 	return num;
 }
 
@@ -132,7 +137,7 @@ CircularInt operator - (int num, CircularInt const & x){
 }
 
 CircularInt operator - (CircularInt const & x, int sub){
-	return (sub - x);
+	return (-sub + x);
 }
 
 CircularInt operator - (CircularInt const & x, CircularInt const & y){
@@ -143,14 +148,12 @@ CircularInt operator - (CircularInt const & x, CircularInt const & y){
 
 CircularInt CircularInt::operator - (){
 	CircularInt res {start, end};
-	res.current = current;
-	res.current -= end;
-	res.current *= -1;
+	res.current = norm(end-current, start, end);
 	return res;
 }
 
 CircularInt& CircularInt::operator -- (){
-	current -= 1;
+	current =norm(current - 1, start, end);
 	return *this;
 }
 
