@@ -291,13 +291,13 @@ CircularInt operator / (CircularInt const & x, CircularInt const & y){
 }
 
 CircularInt& CircularInt::operator %= (const int num){
-	current = norm(min - 1 + ( current % num) , start, end);
+	current = norm(start - 1 + ( current % num) , start, end);
 	return *this;
 }
 
 const CircularInt operator % (const CircularInt& x , const int num){
 	CircularInt res {x.start, x.end};
-	res.current = norm( x.cur % num, x.start, x.end);
+	res.current = norm( x.current % num, x.start, x.end);
 	return res;
 }
 
