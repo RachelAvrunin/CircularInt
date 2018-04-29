@@ -310,12 +310,12 @@ const CircularInt operator % (const CircularInt& x , const int num){
 }
 
 //Stream
-ostream& operator << (ostream& os, CircularInt const & c){
-	return os << c.current;
+ostream& operator << (ostream& os, CircularInt const & x){
+	return os << x.current;
 }
 
 istream& operator >> (istream & is, CircularInt& x){
-		cin >> x.start >> x.end;
-		x.current = x.start;
-		return is;
+	is >> x.current;
+	x.current = norm(x.start + x.current -1, x.start, x.end);
+	return is;
 }
