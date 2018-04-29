@@ -132,7 +132,7 @@ CircularInt& CircularInt::operator -= (int const x){
 
 CircularInt operator - (int num, CircularInt const & x){
 	CircularInt res {x.start, x.end};
-	res.current = norm(res.current-num, res.start, res.end);
+	res.current = norm(num-x.current, res.start, res.end);
 	return res;
 }
 
