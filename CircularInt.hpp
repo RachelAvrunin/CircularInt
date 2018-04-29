@@ -39,7 +39,7 @@ class CircularInt{
         friend bool operator > (CircularInt const &, int const);
         friend bool operator > (int const, CircularInt const &);
         friend bool operator > (CircularInt const &, CircularInt const &);
-        
+
         //Addition
         CircularInt& operator += (int);
         CircularInt& operator += (CircularInt const &);
@@ -72,6 +72,8 @@ class CircularInt{
         friend CircularInt operator / (int, CircularInt const &);
         friend CircularInt operator / (CircularInt const &, int);
         friend CircularInt operator / (CircularInt const &, CircularInt const &);
+        CircularInt& operator %= (const int other);
+        friend const CircularInt operator % (const CircularInt& c , const int num);
 
         //Stream
         friend ostream& operator << (ostream &, CircularInt const &);
