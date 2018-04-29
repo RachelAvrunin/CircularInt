@@ -28,5 +28,4 @@ int main() {
 	//  * when are there two or more answers to a/b?
 	//	* when is there no answer to a/b?
 
-
 }

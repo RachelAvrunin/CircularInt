@@ -80,6 +80,54 @@ bool operator != (CircularInt const & a, CircularInt const & b){
 	return !(a.current == b.current);
 }
 
+bool operator <= (CircularInt const & x, int const num){
+	return x.current <= num;
+}
+
+bool operator <= (int const num, CircularInt const & x){
+	return num <= x.current;
+}
+
+bool operator <= (CircularInt const & x, CircularInt const & y){
+	return x.current <= y.current;
+}
+
+bool operator < (CircularInt const & x, int const num){
+	return x.current < num;
+}
+
+bool operator < (int const num, CircularInt const & x){
+	return num < x.current;
+}
+
+bool operator < (CircularInt const & x, CircularInt const & y){
+	return x.current < y.current;
+}
+
+bool operator >= (CircularInt const & x, int const num){
+	return x.current >= num;
+}
+
+bool operator >= (int const num, CircularInt const & x){
+	return num >= x.current;
+}
+
+bool operator >= (CircularInt const & x, CircularInt const & y){
+	return x.current >= y.current;
+}
+
+bool operator > (CircularInt const & x, int const num){
+	return x.current > num;
+}
+
+bool operator > (int const num, CircularInt const & x){
+	return num > x.current;
+}
+
+bool operator > (CircularInt const & x, CircularInt const & y){
+	return x.current > y.current;
+}
+
 //Addition
 CircularInt& CircularInt::operator += (CircularInt const & x){
 	current = norm(current+x.current, start, end);
